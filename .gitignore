@@ -1,0 +1,27 @@
+# Local configuration and credentials
+.env*
+# Python
+__pycache__/
+# GHDL and simulation output
+build/
+*.cf
+*.ghw
+*.vcd
+# Vivado generated files; keep sources, constraints, and project Tcl scripts
+.Xil/
+*.cache/
+*.runs/
+*.sim/
+*.hw/
+*.gen/
+*.ip_user_files/
+*.jou
+*.log
+*.str
+*.wdb
+*.bit
+*.bin
+# Editors and OS
+.DS_Store
+*.swp
+*.swo
