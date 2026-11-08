@@ -87,10 +87,11 @@ On Linux or macOS, create the environment with `python3 -m venv .venv` and
 install with `.venv/bin/python -m pip install -r requirements-dev.txt`.
 Use `python3 scripts/check.py format` and `python3 scripts/check.py format-check`.
 
-Formatting is an optional local tool; it does not replace the checks below.
+Formatting can be applied locally; CI checks the same shared VSG rules without
+modifying files. It does not replace the checks below.
 The hygiene check also covers non-VHDL files and prohibited arithmetic packages.
 GHDL checks VHDL syntax and name resolution; formatting does not guarantee
-that those checks pass. CI does not currently enforce the full VSG ruleset.
+that those checks pass.
 
 ## Checks
 
@@ -140,8 +141,31 @@ GitHub Actions runs these portable source checks on Linux; contributors do not
 need Linux or GHDL to work in Vivado on Windows. `.gitattributes` keeps tracked
 text files in LF format across platforms.
 
-CI runs on every PR targeting `main`, including draft PRs, and on pushes to `main`.
-It checks branch naming, basic source hygiene, disallowed arithmetic packages,
-and VHDL syntax. It does not run simulations, synthesis, or timing analysis.
-CI explicitly reports when there are no VHDL files.
+## GitHub Actions
+
+CI runs on every PR targeting `main`, including draft PRs, on pushes to `main`,
+and when manually dispatched. Further pushes to a branch with an open PR
+targeting `main` automatically rerun CI. A push to another branch without
+such a PR does not automatically start CI.
+
+| Check | What it verifies |
+| --- | --- |
+| Branch policy | PR author prefix and lowercase kebab-case task name; PRs only |
+| Source hygiene | Encoding, whitespace, final newline, and prohibited arithmetic packages |
+| VHDL formatting | Shared `vsg.yaml` rules with the pinned VSG version; no automatic fixes |
+| Check script tests | File discovery, dependency handling, error detection, and formatter commands |
+| VHDL syntax | GHDL analysis using VHDL-2008 |
+
+The regression-test job installs both GHDL and VSG so all tool-specific tests
+can run. CI does not simulate the CPU or memory testbench, perform synthesis,
+or run timing analysis. Checks explicitly report when there are no VHDL files.
+
+To run CI manually, open **Actions > CI > Run workflow**, select the branch,
+and click **Run workflow**. The selected branch must contain the workflow and
+its check scripts, formatter configuration, and requirements file.
+
+GitHub shows the manual-run button only after the `workflow_dispatch` trigger
+is present on the default branch (`main`). Until this workflow update is merged
+into `main`, open a draft PR targeting `main` to test the updated workflow on
+your feature branch. The PR does not need to be merged for its checks to run.
 
