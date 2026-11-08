@@ -2,6 +2,7 @@
 .env*
 # Python
 __pycache__/
+.venv/
 # GHDL and simulation output
 build/
 *.cf

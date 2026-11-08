@@ -12,11 +12,13 @@ ROOT = Path(__file__).resolve().parents[1]
 TEXT_SUFFIXES = {".vhd", ".vhdl", ".md", ".py", ".yml", ".yaml", ".json", ".tcl", ".xdc"}
 
 
-def tracked_files():
+def repository_files():
     result = subprocess.run(
-        ["git", "ls-files", "-z"], cwd=ROOT, check=True, capture_output=True
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+        cwd=ROOT, check=True, capture_output=True
     )
-    return [ROOT / os.fsdecode(name) for name in result.stdout.split(b"\0") if name]
+    names = sorted({os.fsdecode(name) for name in result.stdout.split(b"\0") if name})
+    return [ROOT / name for name in names if (ROOT / name).is_file()]
 
 
 def check_branch(branch, author):
@@ -65,6 +67,23 @@ def lint(files):
     return bool(errors)
 
 
+def format_vhdl(files, fix=False):
+    sources = [p for p in files if p.suffix.lower() in {".vhd", ".vhdl"}]
+    if not sources:
+        print("No VHDL files yet; formatting has no inputs.")
+        return 0
+    local = ROOT / ".venv" / ("Scripts/vsg.exe" if os.name == "nt" else "bin/vsg")
+    executable = str(local) if local.is_file() else shutil.which("vsg")
+    if not executable:
+        print("VSG is required. Install requirements-dev.txt in .venv (see README).")
+        return 1
+    command = [executable, "-c", str(ROOT / "vsg.yaml")]
+    if fix:
+        command.append("--fix")
+    command.extend(["-f", *map(str, sources)])
+    return subprocess.run(command, cwd=ROOT).returncode
+
+
 def syntax(files):
     sources = [p for p in files if p.suffix.lower() in {".vhd", ".vhdl"}]
     if not sources:
@@ -73,20 +92,52 @@ def syntax(files):
     if not shutil.which("ghdl"):
         print("GHDL is required for syntax checking.")
         return 1
-    failed = False
     with tempfile.TemporaryDirectory(prefix="vhdl-syntax-") as work:
-        for source in sources:
-            print(f"Checking {source.relative_to(ROOT)}", flush=True)
-            result = subprocess.run(["ghdl", "-s", "--std=08", str(source)], cwd=work)
-            failed |= result.returncode != 0
-    return failed
+        pending = sources
+        while pending:
+            failed = []
+            diagnostics = []
+            for source in pending:
+                result = subprocess.run(
+                    ["ghdl", "-a", "--std=08", str(source)],
+                    cwd=work, capture_output=True, text=True,
+                    encoding="utf-8", errors="replace"
+                )
+                output = result.stdout + result.stderr
+                if result.returncode:
+                    failed.append(source)
+                    diagnostics.append(output)
+                else:
+                    print(f"Checked {source.relative_to(ROOT)}", flush=True)
+                    if output:
+                        print(output, end="")
+            if len(failed) == len(pending):
+                print("VHDL analysis failed; fix the errors or missing dependencies below.")
+                for output in diagnostics:
+                    print(output, end="")
+                return 1
+            # Successful analyses populate WORK for files with dependencies.
+            # Retry deferred files only while at least one file makes progress.
+            pending = failed
+    return 0
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("check", choices=["branch", "lint", "syntax"])
+    parser.add_argument("check", choices=["branch", "lint", "syntax", "format", "format-check"])
+    parser.add_argument("files", nargs="*", type=Path, help="VHDL files for format/format-check; default: all")
     args = parser.parse_args()
+    if args.files and args.check not in {"format", "format-check"}:
+        parser.error("File arguments are only supported for format and format-check.")
     if args.check == "branch":
         raise SystemExit(check_branch(os.getenv("PR_BRANCH", ""), os.getenv("PR_AUTHOR", "")))
-    files = tracked_files()
+    if args.files:
+        files = [path.resolve() for path in args.files]
+        for path in files:
+            if not path.is_file() or path.suffix.lower() not in {".vhd", ".vhdl"}:
+                parser.error(f"Not an existing VHDL file: {path}")
+    else:
+        files = repository_files()
+    if args.check in {"format", "format-check"}:
+        raise SystemExit(format_vhdl(files, fix=args.check == "format"))
     raise SystemExit(lint(files) if args.check == "lint" else syntax(files))
