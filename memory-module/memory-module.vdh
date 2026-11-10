@@ -1,0 +1,98 @@
+library IEEE;
+use IEEE.numeric_bit.all;
+
+entity RAM4096x12 is
+    port(
+        w_en    : in bit;
+        addr    : in bit_vector( 11 downto 0);
+        data_in : in bit_vector( 11 downto 0);
+        data_out: out bit_vector( 11 downto 0)
+    );
+end RAM4096x12;
+
+library IEEE;
+use IEEE.numeric_bit.all;
+
+entity RAM4096x12Test is 
+    port(
+        w_en        : out bit;
+        addr        : out bit_vector( 11 downto 0);
+        dataToMem   : out bit_vector( 11 downto 0);
+        dataFromMem1: in bit_vector( 11 downto 0);
+        dataFromMem2: in bit_vector( 11 downto 0)
+    );
+end RAM4096x12Test;
+
+entity RAM4096x12TLE is
+end RAM4096x12TLE;
+
+architecture UTT1 of RAM4096x12 is
+begin
+    process( w_en , addr , data_in )   
+        type mem_type is array(bit,bit,bit,bit,bit,bit,bit,bit,bit,bit,bit,bit) of bit_vector( 11 downto 0 );
+        variable Mem: mem_type;
+    begin
+        if w_en = '1' then 
+            Mem(addr(11),addr(10),addr(9),addr(8),addr(7),addr(6),addr(5),addr(4),addr(3),addr(2),addr(1),addr(0)):= data_in;
+        end if;
+        data_out <= Mem(addr(11),addr(10),addr(9),addr(8),addr(7),addr(6),addr(5),addr(4),addr(3),addr(2),addr(1),addr(0));
+    end process;
+end UTT1;
+
+architecture UTT2 of RAM4096x12 is
+begin
+    process ( w_en , addr , data_in ) 
+        type mem_type is array (integer range 4095 downto 0) of bit_vector( 11 downto 0 );
+        variable Mem: mem_type;
+    begin
+        if w_en = '1' then 
+            Mem(to_integer(unsigned(addr))):= data_in;
+        end if;
+        data_out <= Mem(to_integer(unsigned(addr)));
+    end process;
+end UTT2;
+
+architecture TB of RAM4096x12Test is
+    signal w_en_s: bit := '0';
+    signal addr_s, dataToMem_s, dataFromMem1_s, dataFromMem2_s: bit_vector( 11 downto 0);
+begin
+    w_en        <= w_en_s;
+    addr        <= addr_s;
+    dataToMem   <= dataToMem_s;
+    dataFromMem1_s <= dataFromMem1;
+    dataFromMem2_s <= dataFromMem2;
+    process
+    begin
+        w_en_s <= '1';
+        for i in 0 to 4095 loop
+            wait for 5 ns;
+            addr_s <= bit_vector((unsigned(addr_s)) + 1);
+            dataToMem_s <= bit_vector((unsigned(dataToMem_s)) + 1);
+        end loop;
+        w_en_s <= '0';  
+        wait for 5 ns;
+        for i in 0 to 4095 loop
+            addr_s <= bit_vector(unsigned(addr_s) + 1);
+            wait for 5 ns;
+            assert dataFromMem1_s = dataFromMem2_s
+                report "Diffrent values at address " & to_string(addr_s) & " with UTT1: " & to_string(dataFromMem1_s) & " and with UTT2: " & to_string(dataFromMem2_s)
+                severity error;
+        end loop;
+        wait;
+    end process;    
+end TB;
+
+architecture TLE of RAM4096x12TLE is
+    signal w_en_c: bit := '0';
+    signal addr_c, dataToMem_c, dataFromMem1_c, dataFromMem2_c: bit_vector( 11 downto 0);
+begin
+    testbench: entity work.RAM4096x12Test(TB) port map(w_en_c, addr_c, dataToMem_c, dataFromMem1_c, dataFromMem2_c);
+    MemUTT1: entity work.RAM4096x12(UTT1) port map(w_en_c, addr_c, dataToMem_c, dataFromMem1_c);
+    MemUTT2: entity work.RAM4096x12(UTT2) port map(w_en_c, addr_c, dataToMem_c, dataFromMem2_c);
+end TLE;
+
+configuration RAM4096x12TLECONF of RAM4096x12TLE is
+    for TLE
+    end for;
+end RAM4096x12TLECONF;
+        
