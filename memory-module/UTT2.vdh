@@ -1,0 +1,15 @@
+library IEEE;
+use IEEE.numeric_bit.all;
+
+architecture UTT2 of RAM4096x12 is
+begin
+    process ( w_en , addr , data_in ) 
+        type mem_type is array (integer range 4095 downto 0) of bit_vector( 11 downto 0 );
+        variable Mem: mem_type;
+    begin
+        if w_en = '1' then 
+            Mem(to_integer(unsigned(addr))):= data_in;
+        end if;
+        data_out <= Mem(to_integer(unsigned(addr)));
+    end process;
+end UTT2;

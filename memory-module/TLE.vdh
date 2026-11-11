@@ -1,0 +1,16 @@
+entity RAM4096x12TLE is
+end RAM4096x12TLE;
+
+architecture TLE of RAM4096x12TLE is
+    signal w_en_c: bit := '0';
+    signal addr_c, dataToMem_c, dataFromMem1_c, dataFromMem2_c: bit_vector( 11 downto 0);
+begin
+    testbench: entity work.RAM4096x12Test(TB) port map(w_en_c, addr_c, dataToMem_c, dataFromMem1_c, dataFromMem2_c);
+    MemUTT1: entity work.RAM4096x12(UTT1) port map(w_en_c, addr_c, dataToMem_c, dataFromMem1_c);
+    MemUTT2: entity work.RAM4096x12(UTT2) port map(w_en_c, addr_c, dataToMem_c, dataFromMem2_c);
+end TLE;
+
+configuration RAM4096x12TLECONF of RAM4096x12TLE is
+    for TLE
+    end for;
+end RAM4096x12TLECONF;

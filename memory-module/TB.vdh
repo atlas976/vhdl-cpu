@@ -1,0 +1,42 @@
+library IEEE;
+use IEEE.numeric_bit.all;
+
+entity RAM4096x12Test is 
+    port(
+        w_en        : out bit;
+        addr        : out bit_vector( 11 downto 0);
+        dataToMem   : out bit_vector( 11 downto 0);
+        dataFromMem1: in bit_vector( 11 downto 0);
+        dataFromMem2: in bit_vector( 11 downto 0)
+    );
+end RAM4096x12Test;
+
+architecture TB of RAM4096x12Test is
+    signal w_en_s: bit := '0';
+    signal addr_s, dataToMem_s, dataFromMem1_s, dataFromMem2_s: bit_vector( 11 downto 0);
+begin
+    w_en        <= w_en_s;
+    addr        <= addr_s;
+    dataToMem   <= dataToMem_s;
+    dataFromMem1_s <= dataFromMem1;
+    dataFromMem2_s <= dataFromMem2;
+    process
+    begin
+        w_en_s <= '1';
+        for i in 0 to 4095 loop
+            wait for 5 ns;
+            addr_s <= bit_vector((unsigned(addr_s)) + 1);
+            dataToMem_s <= bit_vector((unsigned(dataToMem_s)) + 1);
+        end loop;
+        w_en_s <= '0';  
+        wait for 5 ns;
+        for i in 0 to 4095 loop
+            addr_s <= bit_vector(unsigned(addr_s) + 1);
+            wait for 5 ns;
+            assert dataFromMem1_s = dataFromMem2_s
+                report "Diffrent values at address " & to_string(addr_s) & " with UTT1: " & to_string(dataFromMem1_s) & " and with UTT2: " & to_string(dataFromMem2_s)
+                severity error;
+        end loop;
+        wait;
+    end process;    
+end TB;
