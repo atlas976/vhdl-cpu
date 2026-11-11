@@ -1,0 +1,22 @@
+# Use VSG's default formatting with the repository's indentation and line endings.
+linesep: "\n"
+rule:
+  global:
+    indent_size: 4
+    indent_style: spaces
+  # Initialization is valid in simulation and must not be removed for style.
+  signal_007:
+    disable: true
+  variable_007:
+    disable: true
+  # Process labels are optional; the formatter does not invent names.
+  process_016:
+    disable: true
+  process_018:
+    disable: true
+  # Both component and direct entity instantiations are supported.
+  instantiation_034:
+    disable: true
+  # Direct entity instantiations may omit the architecture identifier.
+  instantiation_036:
+    disable: true

@@ -1,0 +1,2 @@
+# Shared VHDL formatter version for all contributors.
+vsg==3.35.0
