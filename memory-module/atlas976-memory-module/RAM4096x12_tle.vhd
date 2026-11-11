@@ -1,18 +1,3 @@
-----------------------------------------------------------------------------------
--- Company:
--- Engineer: Lukas Fuchs
---
--- Create Date: 08.11.2026 17:13:45
--- Design Name: RAM4096x12_tle
--- Module Name: RAM4096x12_tle - Behavioral
--- Project Name: memory-module
-
--- Description: implementation of memory module testbench
---
--- Dependencies: IEEE.numeric_bit.all
---
--- Additional Comments: for vhdl lecture coursework
-----------------------------------------------------------------------------------
 
 library ieee;
     use ieee.numeric_bit.all;
@@ -47,7 +32,7 @@ architecture structural of ram4096x12_tle is
 begin
 
     -- declare and connect all entities and the testbench with explicit architectures
-    uut1 : entity work.ram4096x12(Bit_Implementation)
+    uut1 : entity work.ram4096x12(bit_implementation)
         generic map (
             data_width => data_width
         )
@@ -58,7 +43,7 @@ begin
             data_out => datafrommem1
         );
 
-    uut2 : entity work.ram4096x12(Int_Implementation)
+    uut2 : entity work.ram4096x12(int_implementation)
         generic map (
             data_width => data_width
         )
@@ -82,3 +67,8 @@ begin
         );
 
 end architecture structural;
+
+configuration config of ram4096x12_tle is
+    for structural
+    end for;
+end config;

@@ -1,18 +1,3 @@
-----------------------------------------------------------------------------------
--- Company:
--- Engineer: Lukas Fuchs
---
--- Create Date: 08.11.2026 17:13:45
--- Design Name: RAM4096x12_tb
--- Module Name: RAM4096x12_tb - Behavioral
--- Project Name: memory-module
-
--- Description: implementation of memory module testbench
---
--- Dependencies: IEEE.numeric_bit.all
---
--- Additional Comments: for vhdl lecture coursework
-----------------------------------------------------------------------------------
 
 library ieee;
     use ieee.numeric_bit.all;
@@ -108,12 +93,3 @@ begin
     end process;
 
 end architecture behavioral;
-
-
-
-
-
-
-
-
-
