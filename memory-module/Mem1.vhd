@@ -43,8 +43,10 @@ begin
   process (w_en, addr, data_in) is
 
     -- local variable (12-D Matrix, 2^12 = 4096 fields storing a bit_vector)
+
     type mem_type is array (bit, bit, bit, bit, bit, bit,
                             bit, bit, bit, bit, bit, bit) of bit_vector(data_width - 1 downto 0);
+
     variable Mem : mem_type;
 
   begin

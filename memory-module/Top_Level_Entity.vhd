@@ -29,6 +29,7 @@ entity RAM4096x12_TOP is
 end entity RAM4096x12_TOP;
 
 -- structural design, "wire up" existing components
+
 architecture Structural of RAM4096x12_TOP is
 
   -- declare components (list of "building blocks" for structural design)
@@ -80,6 +81,7 @@ architecture Structural of RAM4096x12_TOP is
   signal dataFromMem2 : bit_vector(data_width - 1 downto 0);
 
 -- start of actual structural design ("building")
+
 begin
 
   -- instantiation: connect ports of components with signals (port => signal)

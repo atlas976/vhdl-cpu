@@ -44,7 +44,9 @@ begin
   process (w_en, addr, data_in) is
 
     -- local variables (array with 2^12 = 4096 entries storing a bit_vector)
+
     type mem_type is array (natural range 0 to 2 ** addr_width - 1) of bit_vector(data_width - 1 downto 0);
+
     variable Mem      : mem_type;
     variable addr_nat : natural range 0 to 2 ** addr_width - 1;
 

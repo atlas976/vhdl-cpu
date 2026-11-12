@@ -52,7 +52,6 @@ begin
 
   -- sequential statement
   process is
-
   begin
 
     -- writing loop (through every address)
