@@ -18,53 +18,53 @@
 ----------------------------------------------------------------------------------
 
 library ieee;
-  use ieee.std_logic_1164.all;
+    use ieee.std_logic_1164.all;
 
 entity RAM4096x12 is
-  -- Flexibilization of interfaces by const. and generics
-  generic (
-    addr_width : positive range 1 to 31 := 12;
-    data_width : positive range 1 to 31 := 12
-  );
-  -- physical connections
-  port (
-    w_en     : in    bit;
-    addr     : in    bit_vector(addr_width - 1 downto 0);
-    data_in  : in    bit_vector(data_width - 1 downto 0);
-    data_out : out   bit_vector(data_width - 1 downto 0)
-  );
+    -- Flexibilization of interfaces by const. and generics
+    generic (
+        addr_width : positive range 1 to 31 := 12;
+        data_width : positive range 1 to 31 := 12
+    );
+    -- physical connections
+    port (
+        w_en     : in    bit;
+        addr     : in    bit_vector(addr_width - 1 downto 0);
+        data_in  : in    bit_vector(data_width - 1 downto 0);
+        data_out : out   bit_vector(data_width - 1 downto 0)
+    );
 end entity RAM4096x12;
 
 architecture Behavioral of RAM4096x12 is
 
 begin
 
-  -- sequential statement
-  process (w_en, addr, data_in) is
+    -- sequential statement
+    process (w_en, addr, data_in) is
 
-    -- local variable (12-D Matrix, 2^12 = 4096 fields storing a bit_vector)
+        -- local variable (12-D Matrix, 2^12 = 4096 fields storing a bit_vector)
 
-    type mem_type is array (bit, bit, bit, bit, bit, bit,
-                            bit, bit, bit, bit, bit, bit) of bit_vector(data_width - 1 downto 0);
+        type mem_type is array (bit, bit, bit, bit, bit, bit,
+                                bit, bit, bit, bit, bit, bit) of bit_vector(data_width - 1 downto 0);
 
-    variable Mem : mem_type;
+        variable Mem : mem_type;
 
-  begin
+    begin
 
-    -- writing process (w_en = '1')
-    if (w_en = '1') then
-      Mem(addr(11), addr(10), addr(9),
-          addr(8), addr(7), addr(6),
-          addr(5), addr(4), addr(3),
-          addr(2), addr(1), addr(0)) := data_in;
-    end if;
+        -- writing process (w_en = '1')
+        if (w_en = '1') then
+            Mem(addr(11), addr(10), addr(9),
+                addr(8), addr(7), addr(6),
+                addr(5), addr(4), addr(3),
+                addr(2), addr(1), addr(0)) := data_in;
+        end if;
 
-    -- reading process (always)
-    data_out <= Mem(addr(11), addr(10), addr(9),
-                    addr(8), addr(7), addr(6),
-                    addr(5), addr(4), addr(3),
-                    addr(2), addr(1), addr(0));
+        -- reading process (always)
+        data_out <= Mem(addr(11), addr(10), addr(9),
+                        addr(8), addr(7), addr(6),
+                        addr(5), addr(4), addr(3),
+                        addr(2), addr(1), addr(0));
 
-  end process;
+    end process;
 
 end architecture Behavioral;
