@@ -21,20 +21,20 @@
 library ieee;
     use ieee.std_logic_1164.all;
 
-entity RAM4096x12_TOP is
+entity ram4096x12_top is
     -- Flexibilization of interfaces by const. and generics
     generic (
         addr_width : positive range 1 to 31 := 12;
         data_width : positive range 1 to 31 := 12
     );
-end entity RAM4096x12_TOP;
+end entity ram4096x12_top;
 
 -- structural design, "wire up" existing components
 
-architecture Structural of RAM4096x12_TOP is
+architecture structural of ram4096x12_top is
 
     -- declare components (list of "building blocks" for structural design)
-    component RAM4096x12_TEST is
+    component ram4096x12_test is
         generic (
             addr_width : positive range 1 to 31;
             data_width : positive range 1 to 31
@@ -42,13 +42,13 @@ architecture Structural of RAM4096x12_TOP is
         port (
             w_en         : out   bit;
             addr         : out   bit_vector(addr_width - 1 downto 0);
-            dataToMem    : out   bit_vector(data_width - 1 downto 0);
-            dataFromMem1 : in    bit_vector(data_width - 1 downto 0);
-            dataFromMem2 : in    bit_vector(data_width - 1 downto 0)
+            datatomem    : out   bit_vector(data_width - 1 downto 0);
+            datafrommem1 : in    bit_vector(data_width - 1 downto 0);
+            datafrommem2 : in    bit_vector(data_width - 1 downto 0)
         );
-    end component RAM4096x12_TEST;
+    end component ram4096x12_test;
 
-    component RAM4096x12 is
+    component ram4096x12 is
         generic (
             addr_width : positive range 1 to 31;
             data_width : positive range 1 to 31
@@ -59,9 +59,9 @@ architecture Structural of RAM4096x12_TOP is
             data_in  : in    bit_vector(data_width - 1 downto 0);
             data_out : out   bit_vector(data_width - 1 downto 0)
         );
-    end component RAM4096x12;
+    end component ram4096x12;
 
-    component RAM4096x12A is
+    component ram4096x12a is
         generic (
             addr_width : positive range 1 to 31;
             data_width : positive range 1 to 31
@@ -72,21 +72,21 @@ architecture Structural of RAM4096x12_TOP is
             data_in  : in    bit_vector(data_width - 1 downto 0);
             data_out : out   bit_vector(data_width - 1 downto 0)
         );
-    end component RAM4096x12A;
+    end component ram4096x12a;
 
     -- signals ("wires" to connect components)
     signal w_en         : bit;
     signal addr         : bit_vector(addr_width - 1 downto 0);
-    signal dataToMem    : bit_vector(data_width - 1 downto 0);
-    signal dataFromMem1 : bit_vector(data_width - 1 downto 0);
-    signal dataFromMem2 : bit_vector(data_width - 1 downto 0);
+    signal datatomem    : bit_vector(data_width - 1 downto 0);
+    signal datafrommem1 : bit_vector(data_width - 1 downto 0);
+    signal datafrommem2 : bit_vector(data_width - 1 downto 0);
 
 -- start of actual structural design ("building")
 
 begin
 
     -- instantiation: connect ports of components with signals (port => signal)
-    TB : component RAM4096x12_TEST
+    tb : component ram4096x12_test
         generic map (
             addr_width => addr_width,
             data_width => data_width
@@ -94,12 +94,12 @@ begin
         port map (
             w_en         => w_en,
             addr         => addr,
-            dataToMem    => dataToMem,
-            dataFromMem1 => dataFromMem1,
-            dataFromMem2 => dataFromMem2
+            datatomem    => datatomem,
+            datafrommem1 => datafrommem1,
+            datafrommem2 => datafrommem2
         );
 
-    UUT1 : component RAM4096x12
+    uut1 : component ram4096x12
         generic map (
             addr_width => addr_width,
             data_width => data_width
@@ -107,11 +107,11 @@ begin
         port map (
             w_en     => w_en,
             addr     => addr,
-            data_in  => dataToMem,
-            data_out => dataFromMem1
+            data_in  => datatomem,
+            data_out => datafrommem1
         );
 
-    UUT2 : component RAM4096x12A
+    uut2 : component ram4096x12a
         generic map (
             addr_width => addr_width,
             data_width => data_width
@@ -119,11 +119,11 @@ begin
         port map (
             w_en     => w_en,
             addr     => addr,
-            data_in  => dataToMem,
-            data_out => dataFromMem2
+            data_in  => datatomem,
+            data_out => datafrommem2
         );
 
-end architecture Structural;
+end architecture structural;
 
 -- configuration: explicit link to architecture
 configuration RAM4096x12_TOP_Conf of RAM4096x12_TOP is

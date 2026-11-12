@@ -30,7 +30,7 @@ library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_bit.all;
 
-entity RAM4096x12_TEST is
+entity ram4096x12_test is
     -- Flexibilization of interfaces by const. and generics
     generic (
         addr_width : positive range 1 to 31 := 12;
@@ -40,13 +40,13 @@ entity RAM4096x12_TEST is
     port (
         w_en         : out   bit;
         addr         : out   bit_vector(addr_width - 1 downto 0);
-        dataToMem    : out   bit_vector(data_width - 1 downto 0);
-        dataFromMem1 : in    bit_vector(data_width - 1 downto 0);
-        dataFromMem2 : in    bit_vector(data_width - 1 downto 0)
+        datatomem    : out   bit_vector(data_width - 1 downto 0);
+        datafrommem1 : in    bit_vector(data_width - 1 downto 0);
+        datafrommem2 : in    bit_vector(data_width - 1 downto 0)
     );
-end entity RAM4096x12_TEST;
+end entity ram4096x12_test;
 
-architecture TB of RAM4096x12_TEST is
+architecture tb of ram4096x12_test is
 
 begin
 
@@ -59,7 +59,7 @@ begin
 
             w_en      <= '1';
             addr      <= bit_vector(to_unsigned(k, addr_width));
-            dataToMem <= bit_vector(to_unsigned(k, data_width));
+            datatomem <= bit_vector(to_unsigned(k, data_width));
             wait for 5 ns;
             w_en      <= '0';
             wait for 5 ns;
@@ -71,13 +71,13 @@ begin
 
             addr <= bit_vector(to_unsigned(k, addr_width));
             wait for 5 ns;
-            assert dataFromMem1 = dataFromMem2
+            assert datafrommem1 = datafrommem2
                 report "different values at address " & integer'image(k)
                 severity error;
-            assert dataFromMem1 = bit_vector(to_unsigned(k, data_width))
+            assert datafrommem1 = bit_vector(to_unsigned(k, data_width))
                 report "Mem1: wrong value at address " & integer'image(k)
                 severity error;
-            assert dataFromMem2 = bit_vector(to_unsigned(k, data_width))
+            assert datafrommem2 = bit_vector(to_unsigned(k, data_width))
                 report "Mem2: wrong value at address " & integer'image(k)
                 severity error;
 
@@ -88,4 +88,4 @@ begin
 
     end process;
 
-end architecture TB;
+end architecture tb;

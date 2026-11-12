@@ -21,7 +21,7 @@ library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_bit.all;
 
-entity RAM4096x12A is
+entity ram4096x12a is
     -- Flexibilization of interfaces by const. and generics
     generic (
         addr_width : positive range 1 to 31 := 12;
@@ -34,9 +34,9 @@ entity RAM4096x12A is
         data_in  : in    bit_vector(data_width - 1 downto 0);
         data_out : out   bit_vector(data_width - 1 downto 0)
     );
-end entity RAM4096x12A;
+end entity ram4096x12a;
 
-architecture Behavioral of RAM4096x12A is
+architecture behavioral of ram4096x12a is
 
 begin
 
@@ -47,7 +47,7 @@ begin
 
         type mem_type is array (natural range 0 to 2 ** addr_width - 1) of bit_vector(data_width - 1 downto 0);
 
-        variable Mem      : mem_type;
+        variable mem      : mem_type;
         variable addr_nat : natural range 0 to 2 ** addr_width - 1;
 
     begin
@@ -57,7 +57,7 @@ begin
 
         -- writing process (w_en = '1')
         if (w_en = '1') then
-            Mem(addr_nat) := data_in;
+            mem(addr_nat) := data_in;
         end if;
 
         -- reading process (always)
@@ -65,4 +65,4 @@ begin
 
     end process;
 
-end architecture Behavioral;
+end architecture behavioral;
