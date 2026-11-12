@@ -1,32 +1,14 @@
 ----------------------------------------------------------------------------------
--- Company:
--- Engineer: Lukas Fuchs
---
--- Create Date: 08.11.2026 17:13:45
--- Design Name: RAM4096x12
--- Module Name: RAM4096x12 - Int_Implementation - Bit_Implementation
--- Project Name: memory-module
-
--- Description: Implementation and declaration of memory module
---
--- Dependencies: IEEE.numeric_bit.all
---
--- Additional Comments: for vhdl lecture coursework
+-- Engineers: Lukas Fuchs, Aurel Schneider, Lorenz Palmarini, Felix Weiﬂleder
 ----------------------------------------------------------------------------------
+
+-- Libraries: --------------------------------------------------------------------
 
 library ieee;
     use ieee.numeric_bit.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
--- use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
--- library UNISIM;
--- use UNISIM.VComponents.all;
-
 ----------------------------------------------------------------------------------
+
+-- Implementation: ---------------------------------------------------------------
 
 entity ram4096x12 is
     -- define the current address and data width
@@ -41,7 +23,7 @@ entity ram4096x12 is
         data_out : out   bit_vector (data_width - 1 downto 0)
     );
     -- const declarations
-    constant addr_width : positive := 12;
+    constant addr_width : positive range 1 to 12 := 12;
 end entity ram4096x12;
 
 architecture int_implementation of ram4096x12 is
@@ -53,7 +35,7 @@ begin
     -- behavioral description of the integer/natural memory behavior.
     process (w_en, addr, data_in) is
 
-        -- declare memory for this module
+        -- declare memory type for this module
 
         type mem_type_int is array
             (natural range 0 to 2 ** addr_width - 1)
@@ -62,7 +44,7 @@ begin
 
         -- declare memory and natural address
         variable mem      : mem_type_int;
-        variable addr_nat : natural;
+        variable addr_nat : natural range 0 to 2 ** addr_width;
 
     begin
 
@@ -88,7 +70,7 @@ begin
     -- behavioral description of the bit memory behavior.
     process (w_en, addr, data_in) is
 
-        -- declare memory for this module
+        -- declare memory type for this module
 
         type mem_type_bit is array
             (bit, bit, bit, bit,
@@ -97,7 +79,7 @@ begin
             of
             bit_vector (data_width - 1 downto 0);
 
-        -- declare memory and natural address
+        -- declare memory
         variable mem : mem_type_bit;
 
     begin
