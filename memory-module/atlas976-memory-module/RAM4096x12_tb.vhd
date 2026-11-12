@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Engineers: Lukas Fuchs, Aurel Schneider, Lorenz Palmarini, Felix Weiﬂleder
+-- Engineers: Lukas Fuchs, Aurel Schneider, Lorenz Palmarini, Felix Wei√üleder
 ----------------------------------------------------------------------------------
 
 -- Libraries: --------------------------------------------------------------------
