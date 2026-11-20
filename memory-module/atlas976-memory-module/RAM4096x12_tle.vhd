@@ -1,38 +1,23 @@
 ----------------------------------------------------------------------------------
--- Company:
--- Engineer: Lukas Fuchs
---
--- Create Date: 08.11.2026 17:13:45
--- Design Name: RAM4096x12_tle
--- Module Name: RAM4096x12_tle - Behavioral
--- Project Name: memory-module
-
--- Description: implementation of memory module testbench
---
--- Dependencies: IEEE.numeric_bit.all
---
--- Additional Comments: for vhdl lecture coursework
+-- Engineers: Lukas Fuchs, Aurel Schneider, Lorenz Palmarini, Felix Weißleder
 ----------------------------------------------------------------------------------
+
+-- Libraries: --------------------------------------------------------------------
 
 library ieee;
     use ieee.numeric_bit.all;
+----------------------------------------------------------------------------------
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
--- use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
--- library UNISIM;
--- use UNISIM.VComponents.all;
+-- Implementation: ---------------------------------------------------------------
 
 entity ram4096x12_tle is
     generic (
         data_width : positive range 1 to 12 := 12
     );
     -- no ports here
+
     -- constant declarations
-    constant addr_width : positive := 12;
+    constant addr_width : positive range 1 to 12 := 12;
 end entity ram4096x12_tle;
 
 architecture structural of ram4096x12_tle is
@@ -46,7 +31,7 @@ architecture structural of ram4096x12_tle is
 
 begin
 
-    -- declare and connect all entities and the testbench with explicit architectures
+    -- declare, connect and configure all entities and the testbench with explicit architectures
     uut1 : entity work.ram4096x12(Bit_Implementation)
         generic map (
             data_width => data_width
