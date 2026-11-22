@@ -9,6 +9,7 @@ build/
 *.ghw
 *.vcd
 # Vivado generated files; keep sources, constraints, and project Tcl scripts
+/riscv-functional-behavioral-cpu/project_1/
 .Xil/
 *.cache/
 *.runs/
@@ -16,6 +17,13 @@ build/
 *.hw/
 *.gen/
 *.ip_user_files/
+*.ipstatic/
+*.xpr.user
+*.dcp
+*.ltx
+*.wcfg
+*.pb
+*.xsim
 *.jou
 *.log
 *.str
