@@ -5,14 +5,13 @@
 -- Libraries: --------------------------------------------------------------------
 library ieee;
     use ieee.numeric_bit.all;
+    use work.constants_pack.all;
+--!!! add other packages here later.
 ----------------------------------------------------------------------------------
 
 -- Implementation: ---------------------------------------------------------------
 entity riscv is
 end entity riscv;
-
-use work.constants_pack.all;
---!!! add other packages here later.
 
 architecture functional of riscv is
 begin
