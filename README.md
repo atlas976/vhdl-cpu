@@ -13,7 +13,7 @@ Assignment specifications and implementations will be added later.
 
 ## Tools and language
 
-CI uses GHDL with VHDL-2008 (`--std=08`) for syntax checking.
+The optional local GHDL syntax check uses VHDL-2008 (`--std=08`).
 Vivado release is the `2019.1` version.
 Set VHDL source files to VHDL 2008 in Vivado when using that standard.
 
@@ -22,8 +22,9 @@ Set VHDL source files to VHDL 2008 in Vivado when using that standard.
 - Work on your own branch: `<github-username>/<task>`, for example
   `atlas976/memory-interface`. Use lowercase kebab-case for the task.
 - Open PRs against `main`. Direct pushes to `main` are forbidden.
-- A PR needs one approval from another collaborator, passing required CI,
-  and resolved review conversations. New commits dismiss previous approvals.
+- A PR normally needs one approval from another collaborator, passing required
+  CI, and resolved review conversations. New commits dismiss previous approvals.
+  The repository owner can bypass these requirements when merging a PR.
 - Keep PRs focused. Explain the change and how you checked it.
 - Squash merge after requirements pass. Update from `main` before starting work.
 - Write code, comments, documentation, and commit messages in English.
@@ -137,8 +138,7 @@ py -3 -m unittest discover -s scripts -p "test_*.py" -v
 ```
 
 On Linux or macOS, use `python3` instead of `py -3`.
-GitHub Actions runs these portable source checks on Linux; contributors do not
-need Linux or GHDL to work in Vivado on Windows. `.gitattributes` keeps tracked
+The local syntax check and check-script tests run independently of GitHub Actions. `.gitattributes` keeps tracked
 text files in LF format across platforms.
 
 ## GitHub Actions
@@ -153,19 +153,12 @@ such a PR does not automatically start CI.
 | Branch policy | PR author prefix and lowercase kebab-case task name; PRs only |
 | Source hygiene | Encoding, whitespace, final newline, and prohibited arithmetic packages |
 | VHDL formatting | Shared `vsg.yaml` rules with the pinned VSG version; no automatic fixes |
-| Check script tests | File discovery, dependency handling, error detection, and formatter commands |
-| VHDL syntax | GHDL analysis using VHDL-2008 |
 
-The regression-test job installs both GHDL and VSG so all tool-specific tests
-can run. CI does not simulate the CPU or memory testbench, perform synthesis,
-or run timing analysis. Checks explicitly report when there are no VHDL files.
+Run GHDL analysis and the check-script regression tests locally as needed.
+The formatter reports when there are no VHDL files.
 
 To run CI manually, open **Actions > CI > Run workflow**, select the branch,
 and click **Run workflow**. The selected branch must contain the workflow and
 its check scripts, formatter configuration, and requirements file.
 
-GitHub shows the manual-run button only after the `workflow_dispatch` trigger
-is present on the default branch (`main`). Until this workflow update is merged
-into `main`, open a draft PR targeting `main` to test the updated workflow on
-your feature branch. The PR does not need to be merged for its checks to run.
-
+GitHub shows the manual-run button when the workflow is on the default branch.

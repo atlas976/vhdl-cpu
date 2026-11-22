@@ -2,7 +2,13 @@
   "name": "Protect main",
   "target": "branch",
   "enforcement": "active",
-  "bypass_actors": [],
+  "bypass_actors": [
+    {
+      "actor_id": 211007068,
+      "actor_type": "User",
+      "bypass_mode": "pull_request"
+    }
+  ],
   "conditions": {
     "ref_name": {
       "include": [
@@ -46,7 +52,7 @@
             "integration_id": 15368
           },
           {
-            "context": "VHDL syntax",
+            "context": "VHDL formatting",
             "integration_id": 15368
           }
         ]
