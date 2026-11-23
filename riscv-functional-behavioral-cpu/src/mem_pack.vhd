@@ -106,16 +106,16 @@ package body mem_pack is
                 end if;
 
             end loop;
-
-            mem(i)       := to_mem_entry(mnemonic, r1, r2, r3, imm, mnemonic_set, r1_set, r2_set, r3_set, imm_set);
-            exit line_loop when i = 2 ** MemoryAddrSize - 1;
-            i            := i + 1;
-            r1_set       := FALSE;
-            r2_set       := FALSE;
-            r3_set       := FALSE;
-            mnemonic_set := FALSE;
-            imm_set      := FALSE;
-
+            if mnemonic_set then 
+                mem(i)       := to_mem_entry(mnemonic, r1, r2, r3, imm, mnemonic_set, r1_set, r2_set, r3_set, imm_set);
+                exit line_loop when i = 2 ** MemoryAddrSize - 1;
+                i            := i + 1;
+                r1_set       := FALSE;
+                r2_set       := FALSE;
+                r3_set       := FALSE;
+                mnemonic_set := FALSE;
+                imm_set      := FALSE;
+            end if;
         end loop;
 
         return mem;

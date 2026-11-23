@@ -75,8 +75,8 @@ package constants_pack is
     constant f7_sub_sra : func7type := "0100000";
 
     -- Full instruction encodings (NOP is ADDI x0,x0,0)
-    constant instr_ebreak : bit_vector(31 downto 0) := x"00100073";
-    constant instr_nop    : bit_vector(31 downto 0) := x"00000013";
+    constant instr_ebreak : BusDataType := x"00100073";
+    constant instr_nop    : BusDataType := x"00000013";
 
     constant x0          : bit_vector(4 downto 0) := "00000";
     constant instr_bytes : positive               := 4;
