@@ -6,6 +6,7 @@
 library work;
     use work.defs_pack.all;
     use work.constants_pack.all;
+
 library ieee;
     use ieee.numeric_bit.all;
 ----------------------------------------------------------------------------------
@@ -784,8 +785,9 @@ package body inst_execute_pack is
         reg      : inout reg_file_type
     ) is
     begin
-        reg(to_integer(unsigned(rd))) := bit_vector(to_signed(pc,RegDataSize));
-        pc := instr_pc + (imm * instr_bytes);
+
+        reg(to_integer(unsigned(rd))) := bit_vector(to_signed(pc, RegDataSize));
+        pc                            := instr_pc + (imm * instr_bytes);
 
     end procedure exec_jal;
 

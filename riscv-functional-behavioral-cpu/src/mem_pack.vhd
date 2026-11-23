@@ -106,7 +106,8 @@ package body mem_pack is
                 end if;
 
             end loop;
-            if mnemonic_set then 
+
+            if (mnemonic_set) then
                 mem(i)       := to_mem_entry(mnemonic, r1, r2, r3, imm, mnemonic_set, r1_set, r2_set, r3_set, imm_set);
                 exit line_loop when i = 2 ** MemoryAddrSize - 1;
                 i            := i + 1;
@@ -116,6 +117,7 @@ package body mem_pack is
                 mnemonic_set := FALSE;
                 imm_set      := FALSE;
             end if;
+
         end loop;
 
         return mem;
