@@ -9,8 +9,8 @@
 -- Implementation: ---------------------------------------------------------------
 package mnemonic_pack is
 
-end package;
+end package mnemonic_pack;
 
 package body mnemonic_pack is
 
-end package body;
+end package body mnemonic_pack;

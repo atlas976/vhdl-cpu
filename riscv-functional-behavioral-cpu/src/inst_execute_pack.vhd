@@ -4,509 +4,812 @@
 -- Libraries: --------------------------------------------------------------------
 
 library work;
-  use work.defs_pack.all;
+    use work.defs_pack.all;
 
-  ----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
 
-  -- Implementation: ---------------------------------------------------------------
+-- Implementation: ---------------------------------------------------------------
 
 package inst_execute_pack is
 
-  -- Loads (I-Type) ---------------------------------------------------------
-  procedure EXEC_LB(
-    rd     : in    reg_type;
-    rs1    : in    reg_type;
-    imm    : in    integer;
-    reg    : inout reg_file_type;
-    memory : in    mem_type
-  );
+    -- Loads (I-Type) ---------------------------------------------------------
 
-  procedure EXEC_LH(
-    rd     : in    reg_type;
-    rs1    : in    reg_type;
-    imm    : in    integer;
-    reg    : inout reg_file_type;
-    memory : in    mem_type
-  );
+    procedure exec_lb (
+        rd     : in    reg_type;
+        rs1    : in    reg_type;
+        imm    : in    integer;
+        reg    : inout reg_file_type;
+        memory : in    mem_type
+    );
 
-  procedure EXEC_LW(
-    rd     : in    reg_type;
-    rs1    : in    reg_type;
-    imm    : in    integer;
-    reg    : inout reg_file_type;
-    memory : in    mem_type
-  );
+    procedure exec_lh (
+        rd     : in    reg_type;
+        rs1    : in    reg_type;
+        imm    : in    integer;
+        reg    : inout reg_file_type;
+        memory : in    mem_type
+    );
 
-  procedure EXEC_LBU(
-    rd     : in    reg_type;
-    rs1    : in    reg_type;
-    imm    : in    integer;
-    reg    : inout reg_file_type;
-    memory : in    mem_type
-  );
+    procedure exec_lw (
+        rd     : in    reg_type;
+        rs1    : in    reg_type;
+        imm    : in    integer;
+        reg    : inout reg_file_type;
+        memory : in    mem_type
+    );
 
-  procedure EXEC_LHU(
-    rd     : in    reg_type;
-    rs1    : in    reg_type;
-    imm    : in    integer;
-    reg    : inout reg_file_type;
-    memory : in    mem_type
-  );
+    procedure exec_lbu (
+        rd     : in    reg_type;
+        rs1    : in    reg_type;
+        imm    : in    integer;
+        reg    : inout reg_file_type;
+        memory : in    mem_type
+    );
 
-  -- Stores (S-Type) --------------------------------------------------------
-  procedure EXEC_SB(
-    rs1    : in    reg_type;
-    rs2    : in    reg_type;
-    imm    : in    integer;
-    reg    : in    reg_file_type;
-    memory : inout mem_type
-  );
+    procedure exec_lhu (
+        rd     : in    reg_type;
+        rs1    : in    reg_type;
+        imm    : in    integer;
+        reg    : inout reg_file_type;
+        memory : in    mem_type
+    );
 
-  procedure EXEC_SH(
-    rs1    : in    reg_type;
-    rs2    : in    reg_type;
-    imm    : in    integer;
-    reg    : in    reg_file_type;
-    memory : inout mem_type
-  );
+    -- Stores (S-Type) --------------------------------------------------------
 
-  procedure EXEC_SW(
-    rs1    : in    reg_type;
-    rs2    : in    reg_type;
-    imm    : in    integer;
-    reg    : in    reg_file_type;
-    memory : inout mem_type
-  );
+    procedure exec_sb (
+        rs1    : in    reg_type;
+        rs2    : in    reg_type;
+        imm    : in    integer;
+        reg    : in    reg_file_type;
+        memory : inout mem_type
+    );
 
-  -- Register-register operations (R-Type) ----------------------------------
-  procedure EXEC_ADD(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    rs2 : in    reg_type;
-    reg : inout reg_file_type
-  );
+    procedure exec_sh (
+        rs1    : in    reg_type;
+        rs2    : in    reg_type;
+        imm    : in    integer;
+        reg    : in    reg_file_type;
+        memory : inout mem_type
+    );
 
-  procedure EXEC_SUB(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    rs2 : in    reg_type;
-    reg : inout reg_file_type
-  );
+    procedure exec_sw (
+        rs1    : in    reg_type;
+        rs2    : in    reg_type;
+        imm    : in    integer;
+        reg    : in    reg_file_type;
+        memory : inout mem_type
+    );
 
-  procedure EXEC_SLL(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    rs2 : in    reg_type;
-    reg : inout reg_file_type
-  );
+    -- Register-register operations (R-Type) ----------------------------------
 
-  procedure EXEC_SRL(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    rs2 : in    reg_type;
-    reg : inout reg_file_type
-  );
+    procedure exec_add (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        rs2 : in    reg_type;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_SRA(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    rs2 : in    reg_type;
-    reg : inout reg_file_type
-  );
+    procedure exec_sub (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        rs2 : in    reg_type;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_SLT(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    rs2 : in    reg_type;
-    reg : inout reg_file_type
-  );
+    procedure exec_sll (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        rs2 : in    reg_type;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_SLTU(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    rs2 : in    reg_type;
-    reg : inout reg_file_type
-  );
+    procedure exec_srl (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        rs2 : in    reg_type;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_XOR(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    rs2 : in    reg_type;
-    reg : inout reg_file_type
-  );
+    procedure exec_sra (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        rs2 : in    reg_type;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_OR(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    rs2 : in    reg_type;
-    reg : inout reg_file_type
-  );
+    procedure exec_slt (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        rs2 : in    reg_type;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_AND(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    rs2 : in    reg_type;
-    reg : inout reg_file_type
-  );
+    procedure exec_sltu (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        rs2 : in    reg_type;
+        reg : inout reg_file_type
+    );
 
-  -- Register-immediate operations (I-Type) ---------------------------------
-  procedure EXEC_ADDI(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    imm : in    integer;
-    reg : inout reg_file_type
-  );
+    procedure exec_xor (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        rs2 : in    reg_type;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_SLTI(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    imm : in    integer;
-    reg : inout reg_file_type
-  );
+    procedure exec_or (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        rs2 : in    reg_type;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_SLTIU(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    imm : in    integer;
-    reg : inout reg_file_type
-  );
+    procedure exec_and (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        rs2 : in    reg_type;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_XORI(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    imm : in    integer;
-    reg : inout reg_file_type
-  );
+    -- Register-immediate operations (I-Type) ---------------------------------
 
-  procedure EXEC_ORI(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    imm : in    integer;
-    reg : inout reg_file_type
-  );
+    procedure exec_addi (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        imm : in    integer;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_ANDI(
-    rd  : in    reg_type;
-    rs1 : in    reg_type;
-    imm : in    integer;
-    reg : inout reg_file_type
-  );
+    procedure exec_slti (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        imm : in    integer;
+        reg : inout reg_file_type
+    );
 
-  -- Shifts with immediate shift amount (I-Type, shamt is 5 bit) -----------
-  procedure EXEC_SLLI(
-    rd    : in    reg_type;
-    rs1   : in    reg_type;
-    shamt : in    reg_type;
-    reg   : inout reg_file_type
-  );
+    procedure exec_sltiu (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        imm : in    integer;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_SRLI(
-    rd    : in    reg_type;
-    rs1   : in    reg_type;
-    shamt : in    reg_type;
-    reg   : inout reg_file_type
-  );
+    procedure exec_xori (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        imm : in    integer;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_SRAI(
-    rd    : in    reg_type;
-    rs1   : in    reg_type;
-    shamt : in    reg_type;
-    reg   : inout reg_file_type
-  );
+    procedure exec_ori (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        imm : in    integer;
+        reg : inout reg_file_type
+    );
 
-  -- Upper immediates (U-Type), imm is already shifted (imm & x"000") -----
-  procedure EXEC_LUI(
-    rd  : in    reg_type;
-    imm : in    data_type;
-    reg : inout reg_file_type
-  );
+    procedure exec_andi (
+        rd  : in    reg_type;
+        rs1 : in    reg_type;
+        imm : in    integer;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_AUIPC(
-    rd       : in    reg_type;
-    imm      : in    data_type;
-    reg      : inout reg_file_type;
-    instr_pc : in    natural
-  );
+    -- Shifts with immediate shift amount (I-Type, shamt is 5 bit) -----------
 
-  -- Branches (B-Type), imm is the signed byte offset ----------------------
-  procedure EXEC_BEQ(
-    rs1      : in    reg_type;
-    rs2      : in    reg_type;
-    imm      : in    integer;
-    reg      : in    reg_file_type;
-    instr_pc : in    natural;
-    pc       : inout natural
-  );
+    procedure exec_slli (
+        rd    : in    reg_type;
+        rs1   : in    reg_type;
+        shamt : in    reg_type;
+        reg   : inout reg_file_type
+    );
 
-  procedure EXEC_BNE(
-    rs1      : in    reg_type;
-    rs2      : in    reg_type;
-    imm      : in    integer;
-    reg      : in    reg_file_type;
-    instr_pc : in    natural;
-    pc       : inout natural
-  );
+    procedure exec_srli (
+        rd    : in    reg_type;
+        rs1   : in    reg_type;
+        shamt : in    reg_type;
+        reg   : inout reg_file_type
+    );
 
-  procedure EXEC_BLT(
-    rs1      : in    reg_type;
-    rs2      : in    reg_type;
-    imm      : in    integer;
-    reg      : in    reg_file_type;
-    instr_pc : in    natural;
-    pc       : inout natural
-  );
+    procedure exec_srai (
+        rd    : in    reg_type;
+        rs1   : in    reg_type;
+        shamt : in    reg_type;
+        reg   : inout reg_file_type
+    );
 
-  procedure EXEC_BGE(
-    rs1      : in    reg_type;
-    rs2      : in    reg_type;
-    imm      : in    integer;
-    reg      : in    reg_file_type;
-    instr_pc : in    natural;
-    pc       : inout natural
-  );
+    -- Upper immediates (U-Type), imm is already shifted (imm & x"000") -----
 
-  procedure EXEC_BLTU(
-    rs1      : in    reg_type;
-    rs2      : in    reg_type;
-    imm      : in    integer;
-    reg      : in    reg_file_type;
-    instr_pc : in    natural;
-    pc       : inout natural
-  );
+    procedure exec_lui (
+        rd  : in    reg_type;
+        imm : in    data_type;
+        reg : inout reg_file_type
+    );
 
-  procedure EXEC_BGEU(
-    rs1      : in    reg_type;
-    rs2      : in    reg_type;
-    imm      : in    integer;
-    reg      : in    reg_file_type;
-    instr_pc : in    natural;
-    pc       : inout natural
-  );
+    procedure exec_auipc (
+        rd       : in    reg_type;
+        imm      : in    data_type;
+        reg      : inout reg_file_type;
+        instr_pc : in    natural
+    );
 
-  -- Jumps -------------------------------------------------------------------
-  procedure EXEC_JAL(
-    rd       : in    reg_type;
-    imm      : in    integer;
-    instr_pc : in    natural;
-    pc       : inout natural;
-    reg      : inout reg_file_type
-  );
+    -- Branches (B-Type), imm is the signed byte offset ----------------------
 
-  procedure EXEC_JALR(
-    rd       : in    reg_type;
-    rs1      : in    reg_type;
-    imm      : in    integer;
-    instr_pc : in    natural;
-    pc       : inout natural;
-    reg      : inout reg_file_type
-  );
+    procedure exec_beq (
+        rs1      : in    reg_type;
+        rs2      : in    reg_type;
+        imm      : in    integer;
+        reg      : in    reg_file_type;
+        instr_pc : in    natural;
+        pc       : inout natural
+    );
 
-  -- System -------------------------------------------------------------------
-  procedure EXEC_EBREAK(
-    execute : inout boolean
-  );
+    procedure exec_bne (
+        rs1      : in    reg_type;
+        rs2      : in    reg_type;
+        imm      : in    integer;
+        reg      : in    reg_file_type;
+        instr_pc : in    natural;
+        pc       : inout natural
+    );
 
-end package;
+    procedure exec_blt (
+        rs1      : in    reg_type;
+        rs2      : in    reg_type;
+        imm      : in    integer;
+        reg      : in    reg_file_type;
+        instr_pc : in    natural;
+        pc       : inout natural
+    );
+
+    procedure exec_bge (
+        rs1      : in    reg_type;
+        rs2      : in    reg_type;
+        imm      : in    integer;
+        reg      : in    reg_file_type;
+        instr_pc : in    natural;
+        pc       : inout natural
+    );
+
+    procedure exec_bltu (
+        rs1      : in    reg_type;
+        rs2      : in    reg_type;
+        imm      : in    integer;
+        reg      : in    reg_file_type;
+        instr_pc : in    natural;
+        pc       : inout natural
+    );
+
+    procedure exec_bgeu (
+        rs1      : in    reg_type;
+        rs2      : in    reg_type;
+        imm      : in    integer;
+        reg      : in    reg_file_type;
+        instr_pc : in    natural;
+        pc       : inout natural
+    );
+
+    -- Jumps -------------------------------------------------------------------
+
+    procedure exec_jal (
+        rd       : in    reg_type;
+        imm      : in    integer;
+        instr_pc : in    natural;
+        pc       : inout natural;
+        reg      : inout reg_file_type
+    );
+
+    procedure exec_jalr (
+        rd       : in    reg_type;
+        rs1      : in    reg_type;
+        imm      : in    integer;
+        instr_pc : in    natural;
+        pc       : inout natural;
+        reg      : inout reg_file_type
+    );
+
+    -- System -------------------------------------------------------------------
+
+    procedure exec_ebreak (
+        execute : inout boolean
+    );
+
+end package inst_execute_pack;
 
 package body inst_execute_pack is
 
-  -- Loads (I-Type) ---------------------------------------------------------
-  procedure EXEC_LB(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type; memory : in mem_type) is
-  begin
-    null; -- TODO: implement LB
-  end procedure;
+    -- Loads (I-Type) ---------------------------------------------------------
 
-  procedure EXEC_LH(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type; memory : in mem_type) is
-  begin
-    null; -- TODO: implement LH
-  end procedure;
+    procedure exec_lb (
+        rd     : in reg_type;
+        rs1    : in reg_type;
+        imm    : in integer;
+        reg    : inout reg_file_type;
+        memory : in mem_type
+    ) is
+    begin
 
-  procedure EXEC_LW(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type; memory : in mem_type) is
-  begin
-    null; -- TODO: implement LW
-  end procedure;
+        null; -- TODO: implement LB
 
-  procedure EXEC_LBU(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type; memory : in mem_type) is
-  begin
-    null; -- TODO: implement LBU
-  end procedure;
+    end procedure exec_lb;
 
-  procedure EXEC_LHU(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type; memory : in mem_type) is
-  begin
-    null; -- TODO: implement LHU
-  end procedure;
+    procedure exec_lh (
+        rd     : in reg_type;
+        rs1    : in reg_type;
+        imm    : in integer;
+        reg    : inout reg_file_type;
+        memory : in mem_type
+    ) is
+    begin
 
-  -- Stores (S-Type) --------------------------------------------------------
-  procedure EXEC_SB(rs1 : in reg_type; rs2 : in reg_type; imm : in integer; reg : in reg_file_type; memory : inout mem_type) is
-  begin
-    null; -- TODO: implement SB
-  end procedure;
+        null; -- TODO: implement LH
 
-  procedure EXEC_SH(rs1 : in reg_type; rs2 : in reg_type; imm : in integer; reg : in reg_file_type; memory : inout mem_type) is
-  begin
-    null; -- TODO: implement SH
-  end procedure;
+    end procedure exec_lh;
 
-  procedure EXEC_SW(rs1 : in reg_type; rs2 : in reg_type; imm : in integer; reg : in reg_file_type; memory : inout mem_type) is
-  begin
-    null; -- TODO: implement SW
-  end procedure;
+    procedure exec_lw (
+        rd     : in reg_type;
+        rs1    : in reg_type;
+        imm    : in integer;
+        reg    : inout reg_file_type;
+        memory : in mem_type
+    ) is
+    begin
 
-  -- Register-register operations (R-Type) ----------------------------------
-  procedure EXEC_ADD(rd : in reg_type; rs1 : in reg_type; rs2 : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement ADD
-  end procedure;
+        null; -- TODO: implement LW
 
-  procedure EXEC_SUB(rd : in reg_type; rs1 : in reg_type; rs2 : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SUB
-  end procedure;
+    end procedure exec_lw;
 
-  procedure EXEC_SLL(rd : in reg_type; rs1 : in reg_type; rs2 : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SLL
-  end procedure;
+    procedure exec_lbu (
+        rd     : in reg_type;
+        rs1    : in reg_type;
+        imm    : in integer;
+        reg    : inout reg_file_type;
+        memory : in mem_type
+    ) is
+    begin
 
-  procedure EXEC_SRL(rd : in reg_type; rs1 : in reg_type; rs2 : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SRL
-  end procedure;
+        null; -- TODO: implement LBU
 
-  procedure EXEC_SRA(rd : in reg_type; rs1 : in reg_type; rs2 : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SRA
-  end procedure;
+    end procedure exec_lbu;
 
-  procedure EXEC_SLT(rd : in reg_type; rs1 : in reg_type; rs2 : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SLT
-  end procedure;
+    procedure exec_lhu (
+        rd     : in reg_type;
+        rs1    : in reg_type;
+        imm    : in integer;
+        reg    : inout reg_file_type;
+        memory : in mem_type
+    ) is
+    begin
 
-  procedure EXEC_SLTU(rd : in reg_type; rs1 : in reg_type; rs2 : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SLTU
-  end procedure;
+        null; -- TODO: implement LHU
 
-  procedure EXEC_XOR(rd : in reg_type; rs1 : in reg_type; rs2 : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement XOR
-  end procedure;
+    end procedure exec_lhu;
 
-  procedure EXEC_OR(rd : in reg_type; rs1 : in reg_type; rs2 : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement OR
-  end procedure;
+    -- Stores (S-Type) --------------------------------------------------------
 
-  procedure EXEC_AND(rd : in reg_type; rs1 : in reg_type; rs2 : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement AND
-  end procedure;
+    procedure exec_sb (
+        rs1    : in reg_type;
+        rs2    : in reg_type;
+        imm    : in integer;
+        reg    : in reg_file_type;
+        memory : inout mem_type
+    ) is
+    begin
 
-  -- Register-immediate operations (I-Type) ---------------------------------
-  procedure EXEC_ADDI(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement ADDI
-  end procedure;
+        null; -- TODO: implement SB
 
-  procedure EXEC_SLTI(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SLTI
-  end procedure;
+    end procedure exec_sb;
 
-  procedure EXEC_SLTIU(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SLTIU
-  end procedure;
+    procedure exec_sh (
+        rs1    : in reg_type;
+        rs2    : in reg_type;
+        imm    : in integer;
+        reg    : in reg_file_type;
+        memory : inout mem_type
+    ) is
+    begin
 
-  procedure EXEC_XORI(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement XORI
-  end procedure;
+        null; -- TODO: implement SH
 
-  procedure EXEC_ORI(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement ORI
-  end procedure;
+    end procedure exec_sh;
 
-  procedure EXEC_ANDI(rd : in reg_type; rs1 : in reg_type; imm : in integer; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement ANDI
-  end procedure;
+    procedure exec_sw (
+        rs1    : in reg_type;
+        rs2    : in reg_type;
+        imm    : in integer;
+        reg    : in reg_file_type;
+        memory : inout mem_type
+    ) is
+    begin
 
-  -- Shifts with immediate shift amount -------------------------------------
-  procedure EXEC_SLLI(rd : in reg_type; rs1 : in reg_type; shamt : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SLLI
-  end procedure;
+        null; -- TODO: implement SW
 
-  procedure EXEC_SRLI(rd : in reg_type; rs1 : in reg_type; shamt : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SRLI
-  end procedure;
+    end procedure exec_sw;
 
-  procedure EXEC_SRAI(rd : in reg_type; rs1 : in reg_type; shamt : in reg_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement SRAI
-  end procedure;
+    -- Register-register operations (R-Type) ----------------------------------
 
-  -- Upper immediates (U-Type) ----------------------------------------------
-  procedure EXEC_LUI(rd : in reg_type; imm : in data_type; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement LUI
-  end procedure;
+    procedure exec_add (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
 
-  procedure EXEC_AUIPC(rd : in reg_type; imm : in data_type; reg : inout reg_file_type; instr_pc : in natural) is
-  begin
-    null; -- TODO: implement AUIPC
-  end procedure;
+        null; -- TODO: implement ADD
 
-  -- Branches (B-Type) ------------------------------------------------------
-  procedure EXEC_BEQ(rs1 : in reg_type; rs2 : in reg_type; imm : in integer; reg : in reg_file_type; instr_pc : in natural; pc : inout natural) is
-  begin
-    null; -- TODO: implement BEQ
-  end procedure;
+    end procedure exec_add;
 
-  procedure EXEC_BNE(rs1 : in reg_type; rs2 : in reg_type; imm : in integer; reg : in reg_file_type; instr_pc : in natural; pc : inout natural) is
-  begin
-    null; -- TODO: implement BNE
-  end procedure;
+    procedure exec_sub (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
 
-  procedure EXEC_BLT(rs1 : in reg_type; rs2 : in reg_type; imm : in integer; reg : in reg_file_type; instr_pc : in natural; pc : inout natural) is
-  begin
-    null; -- TODO: implement BLT
-  end procedure;
+        null; -- TODO: implement SUB
 
-  procedure EXEC_BGE(rs1 : in reg_type; rs2 : in reg_type; imm : in integer; reg : in reg_file_type; instr_pc : in natural; pc : inout natural) is
-  begin
-    null; -- TODO: implement BGE
-  end procedure;
+    end procedure exec_sub;
 
-  procedure EXEC_BLTU(rs1 : in reg_type; rs2 : in reg_type; imm : in integer; reg : in reg_file_type; instr_pc : in natural; pc : inout natural) is
-  begin
-    null; -- TODO: implement BLTU
-  end procedure;
+    procedure exec_sll (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
 
-  procedure EXEC_BGEU(rs1 : in reg_type; rs2 : in reg_type; imm : in integer; reg : in reg_file_type; instr_pc : in natural; pc : inout natural) is
-  begin
-    null; -- TODO: implement BGEU
-  end procedure;
+        null; -- TODO: implement SLL
 
-  -- Jumps -------------------------------------------------------------------
-  procedure EXEC_JAL(rd : in reg_type; imm : in integer; instr_pc : in natural; pc : inout natural; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement JAL
-  end procedure;
+    end procedure exec_sll;
 
-  procedure EXEC_JALR(rd : in reg_type; rs1 : in reg_type; imm : in integer; instr_pc : in natural; pc : inout natural; reg : inout reg_file_type) is
-  begin
-    null; -- TODO: implement JALR
-  end procedure;
+    procedure exec_srl (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
 
-  -- System -------------------------------------------------------------------
-  procedure EXEC_EBREAK(execute : inout boolean) is
-  begin
-    execute := false; -- TODO: implement EBREAK
-  end procedure;
+        null; -- TODO: implement SRL
 
-end package body;
+    end procedure exec_srl;
+
+    procedure exec_sra (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement SRA
+
+    end procedure exec_sra;
+
+    procedure exec_slt (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement SLT
+
+    end procedure exec_slt;
+
+    procedure exec_sltu (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement SLTU
+
+    end procedure exec_sltu;
+
+    procedure exec_xor (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement XOR
+
+    end procedure exec_xor;
+
+    procedure exec_or (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement OR
+
+    end procedure exec_or;
+
+    procedure exec_and (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement AND
+
+    end procedure exec_and;
+
+    -- Register-immediate operations (I-Type) ---------------------------------
+
+    procedure exec_addi (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        imm : in integer;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement ADDI
+
+    end procedure exec_addi;
+
+    procedure exec_slti (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        imm : in integer;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement SLTI
+
+    end procedure exec_slti;
+
+    procedure exec_sltiu (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        imm : in integer;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement SLTIU
+
+    end procedure exec_sltiu;
+
+    procedure exec_xori (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        imm : in integer;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement XORI
+
+    end procedure exec_xori;
+
+    procedure exec_ori (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        imm : in integer;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement ORI
+
+    end procedure exec_ori;
+
+    procedure exec_andi (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        imm : in integer;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement ANDI
+
+    end procedure exec_andi;
+
+    -- Shifts with immediate shift amount -------------------------------------
+
+    procedure exec_slli (
+        rd    : in reg_type;
+        rs1   : in reg_type;
+        shamt : in reg_type;
+        reg   : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement SLLI
+
+    end procedure exec_slli;
+
+    procedure exec_srli (
+        rd    : in reg_type;
+        rs1   : in reg_type;
+        shamt : in reg_type;
+        reg   : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement SRLI
+
+    end procedure exec_srli;
+
+    procedure exec_srai (
+        rd    : in reg_type;
+        rs1   : in reg_type;
+        shamt : in reg_type;
+        reg   : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement SRAI
+
+    end procedure exec_srai;
+
+    -- Upper immediates (U-Type) ----------------------------------------------
+
+    procedure exec_lui (
+        rd  : in reg_type;
+        imm : in data_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement LUI
+
+    end procedure exec_lui;
+
+    procedure exec_auipc (
+        rd       : in reg_type;
+        imm      : in data_type;
+        reg      : inout reg_file_type;
+        instr_pc : in natural
+    ) is
+    begin
+
+        null; -- TODO: implement AUIPC
+
+    end procedure exec_auipc;
+
+    -- Branches (B-Type) ------------------------------------------------------
+
+    procedure exec_beq (
+        rs1      : in reg_type;
+        rs2      : in reg_type;
+        imm      : in integer;
+        reg      : in reg_file_type;
+        instr_pc : in natural;
+        pc       : inout natural
+    ) is
+    begin
+
+        null; -- TODO: implement BEQ
+
+    end procedure exec_beq;
+
+    procedure exec_bne (
+        rs1      : in reg_type;
+        rs2      : in reg_type;
+        imm      : in integer;
+        reg      : in reg_file_type;
+        instr_pc : in natural;
+        pc       : inout natural
+    ) is
+    begin
+
+        null; -- TODO: implement BNE
+
+    end procedure exec_bne;
+
+    procedure exec_blt (
+        rs1      : in reg_type;
+        rs2      : in reg_type;
+        imm      : in integer;
+        reg      : in reg_file_type;
+        instr_pc : in natural;
+        pc       : inout natural
+    ) is
+    begin
+
+        null; -- TODO: implement BLT
+
+    end procedure exec_blt;
+
+    procedure exec_bge (
+        rs1      : in reg_type;
+        rs2      : in reg_type;
+        imm      : in integer;
+        reg      : in reg_file_type;
+        instr_pc : in natural;
+        pc       : inout natural
+    ) is
+    begin
+
+        null; -- TODO: implement BGE
+
+    end procedure exec_bge;
+
+    procedure exec_bltu (
+        rs1      : in reg_type;
+        rs2      : in reg_type;
+        imm      : in integer;
+        reg      : in reg_file_type;
+        instr_pc : in natural;
+        pc       : inout natural
+    ) is
+    begin
+
+        null; -- TODO: implement BLTU
+
+    end procedure exec_bltu;
+
+    procedure exec_bgeu (
+        rs1      : in reg_type;
+        rs2      : in reg_type;
+        imm      : in integer;
+        reg      : in reg_file_type;
+        instr_pc : in natural;
+        pc       : inout natural
+    ) is
+    begin
+
+        null; -- TODO: implement BGEU
+
+    end procedure exec_bgeu;
+
+    -- Jumps -------------------------------------------------------------------
+
+    procedure exec_jal (
+        rd       : in reg_type;
+        imm      : in integer;
+        instr_pc : in natural;
+        pc       : inout natural;
+        reg      : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement JAL
+
+    end procedure exec_jal;
+
+    procedure exec_jalr (
+        rd       : in reg_type;
+        rs1      : in reg_type;
+        imm      : in integer;
+        instr_pc : in natural;
+        pc       : inout natural;
+        reg      : inout reg_file_type
+    ) is
+    begin
+
+        null; -- TODO: implement JALR
+
+    end procedure exec_jalr;
+
+    -- System -------------------------------------------------------------------
+
+    procedure exec_ebreak (
+        execute : inout boolean
+    ) is
+    begin
+
+        execute := false; -- TODO: implement EBREAK
+
+    end procedure exec_ebreak;
+
+end package body inst_execute_pack;

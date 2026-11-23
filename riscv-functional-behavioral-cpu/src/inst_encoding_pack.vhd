@@ -9,8 +9,8 @@
 -- Implementation: ---------------------------------------------------------------
 package inst_encoding_pack is
 
-end package;
+end package inst_encoding_pack;
 
 package body inst_encoding_pack is
 
-end package body;
+end package body inst_encoding_pack;
