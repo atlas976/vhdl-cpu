@@ -1,11 +1,21 @@
+----------------------------------------------------------------------------------
+-- Engineers: Lukas Fuchs, Aurel Schneider, Lorenz Palmarini, Felix Weißleder
+----------------------------------------------------------------------------------
+
+-- Libraries: --------------------------------------------------------------------
 
 library std;
   use std.textio.all;
 
 library work;
   use work.defs_pack.all;
-  use work.mnemonic.all;
+  use work.mnemonic_pack.all;
   use work.inst_encoding_pack.all;
+  use work.constants_pack.all;
+
+  ----------------------------------------------------------------------------------
+
+  -- Implementation: ---------------------------------------------------------------
 
 package mem_pack is
   impure function init_memory(filename : string) return mem_type;
@@ -50,7 +60,8 @@ package body mem_pack is
         next word_loop when v(1) = ' ';
         if v(1) = '@' then
           read(l, v(1 to 5), success);
-          I := to_addr_type(v(1 to 5)) - 1;
+          I := to_addr_type(v(1 to 5));
+          next line_loop;
         elsif v(1) = '#' then
           read(l, v(1 to 5), success);
           imm := to_imm(v(1 to 5));
@@ -70,8 +81,8 @@ package body mem_pack is
             r1_set := TRUE;
           end if;
         else
-          read(l, v(2 to 5), success);
-          mnemonic := to_mnemonic(v(1 to 5));
+          read(l, v(2 to 6), success);
+          mnemonic := to_mnemonic(v(1 to 6));
           mnemonic_set := TRUE;
         end if;
       end loop;
@@ -88,14 +99,14 @@ package body mem_pack is
   end function;
 
   function init_memory_empty return mem_type is
-    variable mem     : mem_type;
-    variable i       : addr_type := 0;
+    variable mem : mem_type;
+    variable i   : addr_type := 0;
   begin
-    init_loop: loop 
-        mem(i) := (others => '0');
-        exit init_loop when i = 2 ** MemoryAddrSize - 1;
-        i := i + 1; 
-    end loop init_loop;
+    init_loop: loop
+      mem(i) := (others => '0');
+      exit init_loop when i = 2 ** MemoryAddrSize - 1;
+      i := i + 1;
+    end loop;
     return mem;
   end function;
 
@@ -240,6 +251,16 @@ package body mem_pack is
             entry := srli_code(r1, r2, imm);
           end if;
 
+        when SLTI_mnemonic =>
+          if r1_set and imm_set and r2_set then
+            entry := slti_code(r1, r2, imm);
+          end if;
+
+        when SLTIU_mnemonic =>
+          if r1_set and imm_set and r2_set then
+            entry := sltiu_code(r1, r2, imm);
+          end if;
+
         when SRAI_mnemonic =>
           if r1_set and imm_set and r2_set then
             entry := srai_code(r1, r2, imm);
@@ -286,7 +307,7 @@ package body mem_pack is
           end if;
 
         when EBREAK_mnemonic =>
-          entry := ebreak_code(r1, r2, r3);
+          entry := ebreak_code;
 
         when others =>
 
