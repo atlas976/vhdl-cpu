@@ -76,6 +76,7 @@ package constants_pack is
 
     -- Full instruction encodings (NOP is ADDI x0,x0,0)
     constant instr_ebreak : bit_vector(31 downto 0) := x"00100073";
+    constant instr_nop : bit_vector(31 downto 0) := x"00000013";
 
     constant x0          : bit_vector(4 downto 0) := "00000";
     constant instr_bytes : positive               := 4;
