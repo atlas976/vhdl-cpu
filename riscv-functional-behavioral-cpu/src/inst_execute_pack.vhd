@@ -562,8 +562,7 @@ package body inst_execute_pack is
     ) is
     begin
 
-        reg(to_integer(unsigned(rd))) := bit_vector(to_signed(to_integer(signed(reg(to_integer(unsigned(rs1))))) + imm , RegDataSize));
-
+        reg(to_integer(unsigned(rd))) := bit_vector(to_signed(to_integer(signed(reg(to_integer(unsigned(rs1))))) + imm, RegDataSize));
 
     end procedure exec_addi;
 
@@ -702,8 +701,8 @@ package body inst_execute_pack is
     ) is
     begin
 
-        if reg(to_integer(signed(rs1))) = reg(to_integer(signed(rs2))) then
-            pc                            := instr_pc + imm;
+        if (reg(to_integer(signed(rs1))) = reg(to_integer(signed(rs2)))) then
+            pc := instr_pc + imm;
         end if;
 
     end procedure exec_beq;
@@ -719,7 +718,7 @@ package body inst_execute_pack is
     begin
 
         if not(reg(to_integer(signed(rs1))) = reg(to_integer(signed(rs2)))) then
-            pc                            := instr_pc + imm;
+            pc := instr_pc + imm;
         end if;
 
     end procedure exec_bne;
@@ -733,10 +732,10 @@ package body inst_execute_pack is
         pc       : inout natural
     ) is
     begin
-        if reg(to_integer(signed(rs1))) < reg(to_integer(signed(rs2))) then
-            pc                            := instr_pc + imm;
-        end if;
 
+        if (reg(to_integer(signed(rs1))) < reg(to_integer(signed(rs2)))) then
+            pc := instr_pc + imm;
+        end if;
 
     end procedure exec_blt;
 
@@ -750,10 +749,9 @@ package body inst_execute_pack is
     ) is
     begin
 
-        if reg(to_integer(signed(rs1))) >= reg(to_integer(signed(rs2))) then
-            pc                            := instr_pc + imm;
+        if (reg(to_integer(signed(rs1))) >= reg(to_integer(signed(rs2)))) then
+            pc := instr_pc + imm;
         end if;
-
 
     end procedure exec_bge;
 
@@ -767,10 +765,9 @@ package body inst_execute_pack is
     ) is
     begin
 
-        if reg(to_integer(unsigned(rs1))) < reg(to_integer(unsigned(rs2))) then
-            pc                            := instr_pc + imm;
+        if (reg(to_integer(unsigned(rs1))) < reg(to_integer(unsigned(rs2)))) then
+            pc := instr_pc + imm;
         end if;
-
 
     end procedure exec_bltu;
 
@@ -784,8 +781,8 @@ package body inst_execute_pack is
     ) is
     begin
 
-        if reg(to_integer(unsigned(rs1))) >= reg(to_integer(unsigned(rs2))) then
-            pc                            := instr_pc + imm;
+        if (reg(to_integer(unsigned(rs1))) >= reg(to_integer(unsigned(rs2)))) then
+            pc := instr_pc + imm;
         end if;
 
     end procedure exec_bgeu;
@@ -818,7 +815,6 @@ package body inst_execute_pack is
 
         reg(to_integer(unsigned(rd))) := bit_vector(to_signed(pc, RegDataSize));
         pc                            := to_integer(unsigned(reg(to_integer(unsigned(rs1))))) + imm;
-
 
     end procedure exec_jalr;
 
