@@ -61,9 +61,9 @@ package body tracer_pack is
 
     begin
 
-        write(l, string'("PC  | Cmd    | R1  | R2  | Imm   | RD  "));
+        write(l, string'("PC   | Cmd    | R1  | R2  | Imm   | RD  "));
         writeline(f, l);
-        write(l, string'("---------------------------------------"));
+        write(l, string'("----------------------------------------"));
         writeline(f, l);
 
     end procedure print_header;
@@ -75,7 +75,7 @@ package body tracer_pack is
 
     begin
 
-        write(l, string'(int_to_hex(pc / instr_bytes, 3) & " | "));
+        write(l, string'(int_to_hex(pc, 4) & " | "));
 
     end procedure print_pc;
 
@@ -129,7 +129,7 @@ package body tracer_pack is
 
         if (width = 1) then
 
-            case (int) is
+            case (v) is
 
                 when 0 =>
 

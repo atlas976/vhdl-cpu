@@ -562,7 +562,8 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement ADDI
+        reg(to_integer(unsigned(rd))) := bit_vector(to_signed(to_integer(signed(reg(to_integer(unsigned(rs1))))) + imm , RegDataSize));
+
 
     end procedure exec_addi;
 
@@ -701,7 +702,9 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement BEQ
+        if reg(to_integer(signed(rs1))) = reg(to_integer(signed(rs2))) then
+            pc                            := instr_pc + imm;
+        end if;
 
     end procedure exec_beq;
 
@@ -715,7 +718,9 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement BNE
+        if not(reg(to_integer(signed(rs1))) = reg(to_integer(signed(rs2)))) then
+            pc                            := instr_pc + imm;
+        end if;
 
     end procedure exec_bne;
 
@@ -728,8 +733,10 @@ package body inst_execute_pack is
         pc       : inout natural
     ) is
     begin
+        if reg(to_integer(signed(rs1))) < reg(to_integer(signed(rs2))) then
+            pc                            := instr_pc + imm;
+        end if;
 
-        null; -- TODO: implement BLT
 
     end procedure exec_blt;
 
@@ -743,7 +750,10 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement BGE
+        if reg(to_integer(signed(rs1))) >= reg(to_integer(signed(rs2))) then
+            pc                            := instr_pc + imm;
+        end if;
+
 
     end procedure exec_bge;
 
@@ -757,7 +767,10 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement BLTU
+        if reg(to_integer(unsigned(rs1))) < reg(to_integer(unsigned(rs2))) then
+            pc                            := instr_pc + imm;
+        end if;
+
 
     end procedure exec_bltu;
 
@@ -771,7 +784,9 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement BGEU
+        if reg(to_integer(unsigned(rs1))) >= reg(to_integer(unsigned(rs2))) then
+            pc                            := instr_pc + imm;
+        end if;
 
     end procedure exec_bgeu;
 
@@ -787,7 +802,7 @@ package body inst_execute_pack is
     begin
 
         reg(to_integer(unsigned(rd))) := bit_vector(to_signed(pc, RegDataSize));
-        pc                            := instr_pc + (imm * instr_bytes);
+        pc                            := instr_pc + imm;
 
     end procedure exec_jal;
 
@@ -801,7 +816,9 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement JALR
+        reg(to_integer(unsigned(rd))) := bit_vector(to_signed(pc, RegDataSize));
+        pc                            := to_integer(unsigned(reg(to_integer(unsigned(rs1))))) + imm;
+
 
     end procedure exec_jalr;
 
