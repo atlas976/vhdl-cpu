@@ -197,7 +197,9 @@ package body tracer_pack is
 
                 when others =>
 
-                    return "0";
+                    assert FALSE
+                        report "Number not in rage for hex conversion"
+                        severity failure;
 
             end case;
 

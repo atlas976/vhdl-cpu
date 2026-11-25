@@ -126,18 +126,9 @@ package body mem_pack is
 
     function init_memory_empty return mem_type is
 
-        variable mem : mem_type;
-        variable i   : addr_type := 0;
+        variable mem : mem_type := (others => (others => '0'));
 
     begin
-
-        init_loop : loop
-
-            mem(i) := (others => '0');
-            exit init_loop when i = 2 ** MemoryAddrSize - 1;
-            i      := i + 1;
-
-        end loop;
 
         return mem;
 
@@ -168,222 +159,370 @@ package body mem_pack is
 
                     if (r1_set and imm_set and r2_set) then
                         entry := lb_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for LB in assembler file"
+                            severity failure;
                     end if;
 
                 when LBU_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := lbu_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for LBU in assembler file"
+                            severity failure;
                     end if;
 
                 when LH_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := lh_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for LH in assembler file"
+                            severity failure;
                     end if;
 
                 when LHU_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := lhu_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for LHU in assembler file"
+                            severity failure;
                     end if;
 
                 when LW_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := lw_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for LW in assembler file"
+                            severity failure;
                     end if;
 
                 when SB_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := sb_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SB in assembler file"
+                            severity failure;
                     end if;
 
                 when SH_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := sh_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SH in assembler file"
+                            severity failure;
                     end if;
 
                 when SW_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := sw_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SW in assembler file"
+                            severity failure;
                     end if;
 
                 when ADD_mnemonic =>
 
                     if (r1_set and r2_set and r3_set) then
                         entry := add_code(r1, r2, r3);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for ADD in assembler file"
+                            severity failure;
                     end if;
 
                 when SUB_mnemonic =>
 
                     if (r1_set and r2_set and r3_set) then
                         entry := sub_code(r1, r2, r3);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SUB in assembler file"
+                            severity failure;
                     end if;
 
                 when ADDI_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := addi_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for ADDI in assembler file"
+                            severity failure;
                     end if;
 
                 when LUI_mnemonic =>
 
                     if (r1_set and imm_set) then
                         entry := lui_code(r1, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for LUI in assembler file"
+                            severity failure;
                     end if;
 
                 when AUIPC_mnemonic =>
 
                     if (r1_set and imm_set) then
                         entry := auipc_code(r1, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for AUIPC in assembler file"
+                            severity failure;
                     end if;
 
                 when XOR_mnemonic =>
 
                     if (r1_set and r2_set and r3_set) then
                         entry := xor_code(r1, r2, r3);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for XOR in assembler file"
+                            severity failure;
                     end if;
 
                 when OR_mnemonic =>
 
                     if (r1_set and r2_set and r3_set) then
                         entry := or_code(r1, r2, r3);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for OR in assembler file"
+                            severity failure;
                     end if;
 
                 when AND_mnemonic =>
 
                     if (r1_set and r2_set and r3_set) then
                         entry := and_code(r1, r2, r3);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for AND in assembler file"
+                            severity failure;
                     end if;
 
                 when XORI_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := xori_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for XORI in assembler file"
+                            severity failure;
                     end if;
 
                 when ORI_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := ori_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for ORI in assembler file"
+                            severity failure;
                     end if;
 
                 when ANDI_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := andi_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for ANDI in assembler file"
+                            severity failure;
                     end if;
 
                 when SLL_mnemonic =>
 
                     if (r1_set and r2_set and r3_set) then
                         entry := sll_code(r1, r2, r3);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SLL in assembler file"
+                            severity failure;
                     end if;
 
                 when SRL_mnemonic =>
 
                     if (r1_set and r2_set and r3_set) then
                         entry := srl_code(r1, r2, r3);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SRL in assembler file"
+                            severity failure;
                     end if;
 
                 when SRA_mnemonic =>
 
                     if (r1_set and r2_set and r3_set) then
                         entry := sra_code(r1, r2, r3);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SRA in assembler file"
+                            severity failure;
                     end if;
 
                 when SLT_mnemonic =>
 
                     if (r1_set and r2_set and r3_set) then
                         entry := slt_code(r1, r2, r3);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SLT in assembler file"
+                            severity failure;
                     end if;
 
                 when SLTU_mnemonic =>
 
                     if (r1_set and r2_set and r3_set) then
                         entry := sltu_code(r1, r2, r3);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SLTU in assembler file"
+                            severity failure;
                     end if;
 
                 when SLLI_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := slli_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SLLI in assembler file"
+                            severity failure;
                     end if;
 
                 when SRLI_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := srli_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SRLI in assembler file"
+                            severity failure;
                     end if;
 
                 when SLTI_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := slti_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SLTI in assembler file"
+                            severity failure;
                     end if;
 
                 when SLTIU_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := sltiu_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SLTIU in assembler file"
+                            severity failure;
                     end if;
 
                 when SRAI_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := srai_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for SRAI in assembler file"
+                            severity failure;
                     end if;
 
                 when BEQ_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := beq_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for BEQ in assembler file"
+                            severity failure;
                     end if;
 
                 when BNE_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := bne_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for BNE in assembler file"
+                            severity failure;
                     end if;
 
                 when BLT_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := blt_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for BLT in assembler file"
+                            severity failure;
                     end if;
 
                 when BGE_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := bge_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for BGE in assembler file"
+                            severity failure;
                     end if;
 
                 when BLTU_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := bltu_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for BLTU in assembler file"
+                            severity failure;
                     end if;
 
                 when BGEU_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := bgeu_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for BGEU in assembler file"
+                            severity failure;
                     end if;
 
                 when JAL_mnemonic =>
 
                     if (r1_set and imm_set) then
                         entry := jal_code(r1, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for JAL in assembler file"
+                            severity failure;
                     end if;
 
                 when JALR_mnemonic =>
 
                     if (r1_set and imm_set and r2_set) then
                         entry := jalr_code(r1, r2, imm);
+                    else
+                        assert FALSE
+                            report "Wrong sementic for JALR in assembler file"
+                            severity failure;
                     end if;
 
                 when EBREAK_mnemonic =>
@@ -391,6 +530,10 @@ package body mem_pack is
                     entry := ebreak_code;
 
                 when others =>
+
+                    assert FALSE
+                        report "Incorrect instruction name"
+                        severity failure;
 
             end case;
 
