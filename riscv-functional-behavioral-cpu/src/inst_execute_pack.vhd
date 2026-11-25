@@ -430,6 +430,26 @@ package body inst_execute_pack is
 
     end procedure exec_sw;
 
+    -- Register-Index-Helper / Shamt-Converter  ----------------------------------
+
+    function idx (
+        r : reg_type
+    ) return natural is
+    begin
+
+        return to_integer(unsigned(r));
+
+    end function idx;
+
+    function shamt (
+        reg_value : bit_vector(31 downto 0)
+    ) return natural is
+    begin
+
+        return to_integer(unsigned(reg_value(4 downto 0)));
+
+    end function shamt;
+
     -- Register-register operations (R-Type) ----------------------------------
 
     procedure exec_add (
@@ -440,7 +460,7 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement ADD
+        reg(idx(rd)) := bit_vector(unsigned(reg(idx(rs1))) + unsigned(reg(idx(rs2))));
 
     end procedure exec_add;
 
@@ -452,69 +472,9 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement SUB
+        reg(idx(rd)) := bit_vector(unsigned(reg(idx(rs1))) - unsigned(reg(idx(rs2))));
 
     end procedure exec_sub;
-
-    procedure exec_sll (
-        rd  : in reg_type;
-        rs1 : in reg_type;
-        rs2 : in reg_type;
-        reg : inout reg_file_type
-    ) is
-    begin
-
-        null; -- TODO: implement SLL
-
-    end procedure exec_sll;
-
-    procedure exec_srl (
-        rd  : in reg_type;
-        rs1 : in reg_type;
-        rs2 : in reg_type;
-        reg : inout reg_file_type
-    ) is
-    begin
-
-        null; -- TODO: implement SRL
-
-    end procedure exec_srl;
-
-    procedure exec_sra (
-        rd  : in reg_type;
-        rs1 : in reg_type;
-        rs2 : in reg_type;
-        reg : inout reg_file_type
-    ) is
-    begin
-
-        null; -- TODO: implement SRA
-
-    end procedure exec_sra;
-
-    procedure exec_slt (
-        rd  : in reg_type;
-        rs1 : in reg_type;
-        rs2 : in reg_type;
-        reg : inout reg_file_type
-    ) is
-    begin
-
-        null; -- TODO: implement SLT
-
-    end procedure exec_slt;
-
-    procedure exec_sltu (
-        rd  : in reg_type;
-        rs1 : in reg_type;
-        rs2 : in reg_type;
-        reg : inout reg_file_type
-    ) is
-    begin
-
-        null; -- TODO: implement SLTU
-
-    end procedure exec_sltu;
 
     procedure exec_xor (
         rd  : in reg_type;
@@ -524,7 +484,7 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement XOR
+        reg(idx(rd)) := reg(idx(rs1)) xor reg(idx(rs2));
 
     end procedure exec_xor;
 
@@ -536,7 +496,7 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement OR
+        reg(idx(rd)) := reg(idx(rs1)) or reg(idx(rs2));
 
     end procedure exec_or;
 
@@ -548,9 +508,77 @@ package body inst_execute_pack is
     ) is
     begin
 
-        null; -- TODO: implement AND
+        reg(idx(rd)) := reg(idx(rs1)) and reg(idx(rs2));
 
     end procedure exec_and;
+
+    procedure exec_sll (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        reg(idx(rd)) := bit_vector(shift_left(unsigned(reg(idx(rs1))), shamt(reg(idx(rs2)))));
+
+    end procedure exec_sll;
+
+    procedure exec_srl (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        reg(idx(rd)) := bit_vector(shift_right(unsigned(reg(idx(rs1))), shamt(reg(idx(rs2)))));
+
+    end procedure exec_srl;
+
+    procedure exec_sra (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        reg(idx(rd)) := bit_vector(shift_right(signed(reg(idx(rs1))), shamt(reg(idx(rs2)))));
+
+    end procedure exec_sra;
+
+    procedure exec_slt (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        if (signed(reg(idx(rs1))) < signed(reg(idx(rs2)))) then
+            reg(idx(rd)) := (0 => '1', others => '0');
+        else
+            reg(idx(rd)) := (others => '0');
+        end if;
+
+    end procedure exec_slt;
+
+    procedure exec_sltu (
+        rd  : in reg_type;
+        rs1 : in reg_type;
+        rs2 : in reg_type;
+        reg : inout reg_file_type
+    ) is
+    begin
+
+        if (unsigned(reg(idx(rs1))) < unsigned(reg(idx(rs2)))) then
+            reg(idx(rd)) := (0 => '1', others => '0');
+        else
+            reg(idx(rd)) := (others => '0');
+        end if;
+
+    end procedure exec_sltu;
 
     -- Register-immediate operations (I-Type) ---------------------------------
 
