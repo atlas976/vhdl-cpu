@@ -8,6 +8,8 @@ build/
 *.cf
 *.ghw
 *.vcd
+*.fst
+*.txt
 # Vivado generated files; keep sources, constraints, and project Tcl scripts
 .Xil/
 *.cache/
@@ -26,3 +28,7 @@ build/
 .DS_Store
 *.swp
 *.swo
+# nvc / GHDL library directories
+work/
+# temporary files
+temp/
